@@ -32,7 +32,12 @@ public class UserController {
 		System.out.println("user..."+user);
 		if(user!=null) {
 			String authenticationResponse=userService.authenticateUser(user);
-			return new ResponseEntity(authenticationResponse,HttpStatus.OK);
+			if(authenticationResponse=="invalidcredentials" || authenticationResponse=="invaliduser") {
+				return new ResponseEntity(authenticationResponse,HttpStatus.BAD_REQUEST);
+			}
+			else {
+				return new ResponseEntity(authenticationResponse,HttpStatus.OK);
+			}			
 		}
 		else {
 			return new ResponseEntity("Invalid Username/Password",HttpStatus.BAD_REQUEST);
@@ -42,7 +47,12 @@ public class UserController {
 	@GetMapping(path="/authorize-login")
 	public ResponseEntity<Boolean> authorizeUserLoginToken(@RequestParam(name = "username") String username,@RequestParam(name = "token") String token) {
 		boolean validUserToken=userService.authorizeUser(username,token);
-		return new ResponseEntity(validUserToken,HttpStatus.OK);
+		if(validUserToken) {
+			return new ResponseEntity(validUserToken,HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity(validUserToken,HttpStatus.BAD_REQUEST);
+		}		
 	}
 	
 }

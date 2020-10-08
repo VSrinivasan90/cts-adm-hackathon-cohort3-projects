@@ -39,7 +39,8 @@ public class UserService {
 			}
 		}
 		else {
-			return "invaliduser";
+			//return "invaliduser";
+			return "invalidcredentials";
 		}
 	}
 	
