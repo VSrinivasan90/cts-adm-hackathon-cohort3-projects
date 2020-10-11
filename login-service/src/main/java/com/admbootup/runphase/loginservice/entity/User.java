@@ -12,14 +12,18 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name="bank_user_details")
 public class User {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+	/*
+	 * @Id
+	 * 
+	 * @GeneratedValue(strategy=GenerationType.AUTO) private Long id;
+	 */
 	
+	@Id
 	@Column(nullable=false, unique=true)
 	private String username;
 	
@@ -34,6 +38,12 @@ public class User {
     
     private String mobileNumber;
     
+    private String roles="";
+    
+    private String permissions="";
+    
+    private int active=1;
+    
     private String loginToken;
     
     public String getLoginToken() {
@@ -43,13 +53,8 @@ public class User {
 	public void setLoginToken(String loginToken) {
 		this.loginToken = loginToken;
 	}
-
-	private String roles="";
     
-    private String permissions="";
-    
-    private int active=1;
-    
+	
 	/*
 	 * @OneToMany
 	 * 
@@ -58,14 +63,13 @@ public class User {
 	 * {@JoinColumn(name="beneficiaryid")} ) private List<Beneficiary>
 	 * beneficiaries;
 	 */
+	 
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+		/*
+		 * public Long getId() { return id; }
+		 * 
+		 * public void setId(Long id) { this.id = id; }
+		 */
 
 	public String getUsername() {
 		return username;
@@ -138,6 +142,16 @@ public class User {
 	public void setActive(int active) {
 		this.active = active;
 	}
+	
+	/*
+	 * public List<Beneficiary> getBeneficiaries() { return beneficiaries; }
+	 * 
+	 * public void addPassenger(Beneficiary beneficiary) {
+	 * this.beneficiaries.add(beneficiary); }
+	 * 
+	 * public void setPassengers(List<Beneficiary> beneficiaries) {
+	 * this.beneficiaries=beneficiaries; }
+	 */
 
 	protected User() {
 		
@@ -158,7 +172,14 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
+		/*
+		 * return "User [id=" + id + ", username=" + username + ", password=" + password
+		 * + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" +
+		 * gender + ", mobileNumber=" + mobileNumber + ", roles=" + roles +
+		 * ", permissions=" + permissions + ", active=" + active + ", loginToken=" +
+		 * loginToken + "]";
+		 */
+		return "User [username=" + username + ", password=" + password + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", gender=" + gender + ", mobileNumber=" + mobileNumber + ", roles="
 				+ roles + ", permissions=" + permissions + ", active=" + active + ", loginToken=" + loginToken + "]";
 	}

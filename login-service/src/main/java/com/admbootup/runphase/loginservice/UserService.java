@@ -44,19 +44,28 @@ public class UserService {
 		}
 	}
 	
-	public boolean authorizeUser(String username, String token) {
+	/*
+	 * public boolean authorizeUser(String username, String token) { User
+	 * dbUser=userRepository.findByUsername(username);
+	 * System.out.println("dbUser.."+dbUser);
+	 * System.out.println("token equalization..."+token.equals(dbUser.getLoginToken(
+	 * ))); if(dbUser!=null) { if(token.equals(dbUser.getLoginToken())) { return
+	 * true; } else { return false; } } return false; }
+	 */
+	
+	public User authorizeUser(String username, String token) {
 		User dbUser=userRepository.findByUsername(username);
 		System.out.println("dbUser.."+dbUser);
 		System.out.println("token equalization..."+token.equals(dbUser.getLoginToken()));
 		if(dbUser!=null) {
 			if(token.equals(dbUser.getLoginToken())) {
-				return true;
+				return dbUser;
 			}
 			else {
-				return false;
+				return null;
 			}
 		}
-		return false;
+		return null;
 	}
 	
 }
