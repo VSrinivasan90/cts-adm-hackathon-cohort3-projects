@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.admbootup.runphase.beneficiaryservice.entity.User;
 
-@FeignClient(name="login-service")
+//@FeignClient(name="login-service")
+@FeignClient(name="netflix-zuul-api-gateway-server")
 @RibbonClient(name="login-service")
 public interface LoginServiceProxy {
 
@@ -25,7 +26,8 @@ public interface LoginServiceProxy {
 	 * @RequestParam(name = "token") String token);
 	 */
 	
-	@GetMapping(path="/authorize-login")
+	//@GetMapping(path="/authorize-login")
+	@GetMapping(path="/login-service/authorize-login")
 	public User authorizeUserLoginToken(@RequestParam(name = "username") String username,
 			@RequestParam(name = "token") String token);
 }

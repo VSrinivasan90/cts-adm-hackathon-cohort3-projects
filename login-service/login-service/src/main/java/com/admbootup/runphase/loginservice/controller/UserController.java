@@ -1,5 +1,7 @@
 package com.admbootup.runphase.loginservice.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.admbootup.runphase.loginservice.UserService;
 import com.admbootup.runphase.loginservice.entity.User;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -19,6 +22,8 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
+	private Logger logger= LoggerFactory.getLogger(this.getClass());
 	
 	/*
 	 * public String getLoginToken() {
@@ -63,9 +68,15 @@ public class UserController {
 	 */
 	
 	@GetMapping(path="/authorize-login")
+	@HystrixCommand(fallbackMethod = "fallBackAuthorization")
 	public User authorizeUserLoginToken(@RequestParam(name = "username") String username,@RequestParam(name = "token") String token) {
 		User user=userService.authorizeUser(username,token);
+		logger.info("{}","after authorization");
 		return user;
+	}
+	
+	public User fallBackAuthorization(String username,String token) {
+		return null;
 	}
 	
 }

@@ -168,6 +168,12 @@ public class User {
 		this.roles = roles;
 		this.permissions = permissions;
 	}
+	
+	public User(String username, String token) {
+		super();
+		this.username = username;
+		this.loginToken = token;
+	}
 
 	@Override
 	public String toString() {

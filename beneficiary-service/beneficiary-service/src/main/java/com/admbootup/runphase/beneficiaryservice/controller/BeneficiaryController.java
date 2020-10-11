@@ -2,6 +2,8 @@ package com.admbootup.runphase.beneficiaryservice.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,8 @@ public class BeneficiaryController {
 	
 	@Autowired
 	LoginServiceProxy loginServiceProxy;
+	
+	private Logger logger= LoggerFactory.getLogger(this.getClass());
 
 	@GetMapping(path="/beneficiary")
 	public String showAddBeneficiaryPage(ModelMap model) {
@@ -87,6 +91,7 @@ public class BeneficiaryController {
 														savedBeneficiary.getName(),
 														savedBeneficiary.getNickname(),
 														savedBeneficiary.getBeneaccountnumber());
+			logger.info("{}",beneData);
 			return new ResponseEntity(beneData,HttpStatus.CREATED);
 		}
 		else {
@@ -115,6 +120,7 @@ public class BeneficiaryController {
 			System.out.println("Valid token and Session and hence fetching beneficiaries a.."+authorizedUser);
 			List<BeneficiaryData> beneficiariesList = beneficiaryService.getAllBeneficiaries(authorizedUser);
 			System.out.println("beneficiariesList.."+beneficiariesList);
+			logger.info("{}",beneficiariesList);
 			return new ResponseEntity(beneficiariesList,HttpStatus.OK);
 		}
 		else { 
