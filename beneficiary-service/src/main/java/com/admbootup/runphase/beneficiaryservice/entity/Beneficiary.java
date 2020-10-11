@@ -1,6 +1,7 @@
 package com.admbootup.runphase.beneficiaryservice.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -19,13 +20,12 @@ public class Beneficiary {
 	private String nickname;
 	private String beneaccountnumber;
 	
-	/*
-	 * @ManyToOne
-	 * 
-	 * @JoinTable(name="user_beneficiary", joinColumns=
-	 * {@JoinColumn(name="beneficaryid")}, inverseJoinColumns=
-	 * {@JoinColumn(name="username")}) private User user;
-	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinTable(name="user_beneficiary", 
+		joinColumns={@JoinColumn(name="beneficiaryid")},
+		inverseJoinColumns={@JoinColumn(name="username")}) 
+	private User user;
+	 
 
 	public long getBeneficiaryid() {
 		return beneficiaryid;
@@ -59,11 +59,11 @@ public class Beneficiary {
 		this.beneaccountnumber = beneaccountnumber;
 	}
 
-	/*
-	 * public User getUser() { return user; }
-	 * 
-	 * public void setUser(User user) { this.user = user; }
-	 */
+	
+	  public User getUser() { return user; }
+	  
+	  public void setUser(User user) { this.user = user; }
+	 
 
 	public Beneficiary() {
 		

@@ -1,9 +1,9 @@
 package com.admbootup.runphase.beneficiaryservice.entity;
 
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,14 +12,18 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name="bank_user_details")
 public class User {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+	/*
+	 * @Id
+	 * 
+	 * @GeneratedValue(strategy=GenerationType.AUTO) private Long id;
+	 */
 	
+	@Id
 	@Column(nullable=false, unique=true)
 	private String username;
 	
@@ -40,22 +44,29 @@ public class User {
     
     private int active=1;
     
-	/*
-	 * @OneToMany
-	 * 
-	 * @JoinTable(name="user_beneficiary", joinColumns=
-	 * {@JoinColumn(name="username")}, inverseJoinColumns=
-	 * {@JoinColumn(name="beneficiaryid")} ) private List<Beneficiary>
-	 * beneficiaries;
-	 */
-
-	public Long getId() {
-		return id;
+    private String loginToken;
+    
+    public String getLoginToken() {
+		return loginToken;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setLoginToken(String loginToken) {
+		this.loginToken = loginToken;
 	}
+    
+	
+	  @OneToMany(fetch = FetchType.LAZY)	  
+	  @JoinTable(name="user_beneficiary", joinColumns=
+	  {@JoinColumn(name="username")}, inverseJoinColumns=
+	  {@JoinColumn(name="beneficiaryid")} ) 
+	  private List<Beneficiary> beneficiaries;
+	 
+
+		/*
+		 * public Long getId() { return id; }
+		 * 
+		 * public void setId(Long id) { this.id = id; }
+		 */
 
 	public String getUsername() {
 		return username;
@@ -128,6 +139,18 @@ public class User {
 	public void setActive(int active) {
 		this.active = active;
 	}
+	
+	public List<Beneficiary> getBeneficiaries() {
+		return beneficiaries;
+	}
+
+	public void addPassenger(Beneficiary beneficiary) {
+		this.beneficiaries.add(beneficiary);
+	}
+	
+	public void setPassengers(List<Beneficiary> beneficiaries) {
+		this.beneficiaries=beneficiaries;
+	}
 
 	protected User() {
 		
@@ -145,12 +168,25 @@ public class User {
 		this.roles = roles;
 		this.permissions = permissions;
 	}
+	
+	public User(String username, String token) {
+		super();
+		this.username = username;
+		this.loginToken = token;
+	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
+		/*
+		 * return "User [id=" + id + ", username=" + username + ", password=" + password
+		 * + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" +
+		 * gender + ", mobileNumber=" + mobileNumber + ", roles=" + roles +
+		 * ", permissions=" + permissions + ", active=" + active + ", loginToken=" +
+		 * loginToken + "]";
+		 */
+		return "User [username=" + username + ", password=" + password + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", gender=" + gender + ", mobileNumber=" + mobileNumber + ", roles="
-				+ roles + ", permissions=" + permissions + ", active=" + active + "]";
+				+ roles + ", permissions=" + permissions + ", active=" + active + ", loginToken=" + loginToken + "]";
 	}
 	
 	
